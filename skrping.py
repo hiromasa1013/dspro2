@@ -7,7 +7,7 @@ def get_temperature():
 
     # URLからデータを取得
     response = requests.get(url)
-    
+
     # ページのHTMLを解析
     soup = BeautifulSoup(response.text, 'html.parser')
 
@@ -20,7 +20,7 @@ def get_temperature():
         columns = row.find_all('td')
         if len(columns) >= 6:  # カラムが6つ以上ある場合にのみ処理するように修正
             date = columns[0].text.strip()
-            temperature = columns[5].text.strip()  # 6番目の列に気温データがあると仮定
+            temperature = columns[6].text.strip()  # 最後の列に気温データがあると仮定
             temperatures.append((date, temperature))
 
     return temperatures
@@ -29,7 +29,7 @@ if __name__ == "__main__":
     temperature_data = get_temperature()
     for date, temperature in temperature_data:
         print(f"{date}: {temperature}℃")
-#コミット確認
+
 #気温データ収集１
 #ブランチ作成
 #マージの確認
