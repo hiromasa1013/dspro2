@@ -1,39 +1,20 @@
-import requests
 from bs4 import BeautifulSoup
 
-def get_temperature():
-    # 対象のURL
-    url = "https://www.data.jma.go.jp/stats/etrn/view/daily_s1.php?prec_no=44&block_no=47662&year=2024&month=01&day=&view=p1"
+# HTMLドキュメント
+html_doc = """
+<html><head><title>The Dormouse's story</title></head>
+<body>
+<p class="title"><b>The Dormouse's story</b></p>
+<p class="story">Once upon a time there were three little sisters; and their names were
+<a href="http://example.com/elsie" class="sister" id="link1">Elsie</a>,
+<a href="http://example.com/lacie" class="sister" id="link2">Lacie</a> and
+<a href="http://example.com/tillie" class="sister" id="link3">Tillie</a>;
+and they lived at the bottom of a well.</p>
+<p class="story">...</p>
+"""
 
-    # URLからデータを取得
-    response = requests.get(url)
+soup = BeautifulSoup(html_doc, 'html.parser')
 
-    # ページのHTMLを解析
-    soup = BeautifulSoup(response.text, 'html.parser')
-
-    # 気温データが含まれているテーブルを特定
-    table = soup.find('table', {'class': 'data2_s'})
-
-    # テーブルから気温データを取得
-    temperatures = []
-    for row in table.find_all('tr')[1:]:
-        columns = row.find_all('td')
-        if len(columns) >= 6:  # カラムが6つ以上ある場合にのみ処理するように修正
-            date = columns[0].text.strip()
-            temperature = columns[6].text.strip()  # 最後の列に気温データがあると仮定
-            temperatures.append((date, temperature))
-
-    return temperatures
-
-if __name__ == "__main__":
-    temperature_data = get_temperature()
-    for date, temperature in temperature_data:
-        print(f"{date}: {temperature}℃")
-
-#気温データ収集１
-#ブランチ作成
-#マージの確認
-#コメント
-        
-        
-        
+# 'a'タグのすべての要素を取得し、2番目の要素を選択（インデックスは0から始まるため）
+second_a_tag = soup.find_all('a')[1]
+print(second_a_tag)
